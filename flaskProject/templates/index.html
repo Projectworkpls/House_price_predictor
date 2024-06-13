@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            padding-top: 50px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            transition: box-shadow 0.3s;
+        }
+        .card:hover {
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+        .form-control {
+            border-radius: 5px;
+            border-color: #ced4da;
+        }
+        #predict-btn {
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #predict-btn:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1 class="text-center mb-4">House Price Prediction</h1>
+            <form id="prediction-form">
+                <div class="mb-3">
+                    <label for="area" class="form-label">Area (sqft):</label>
+                    <input type="number" id="area" name="Area" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="bedrooms" class="form-label">Bedrooms:</label>
+                    <input type="number" id="bedrooms" name="Bedrooms" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="bathrooms" class="form-label">Bathrooms:</label>
+                    <input type="number" id="bathrooms" name="Bathrooms" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="stories" class="form-label">Stories:</label>
+                    <input type="number" id="stories" name="Stories" class="form-control" required>
+                </div>
+                <button type="button" id="predict-btn" class="btn btn-primary">Predict Price</button>
+            </form>
+            <p id="result" class="text-center"></p>
+        </div>
+    </div>
+
+    <!-- Link to jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Your JavaScript code here -->
+    <script>
+        $(document).ready(function() {
+            $('#predict-btn').click(function(event) {
+                event.preventDefault();
+                var formData = {
+                    'Area': $('#area').val(),
+                    'Bedrooms': $('#bedrooms').val(),
+                    'Bathrooms': $('#bathrooms').val(),
+                    'Stories': $('#stories').val()
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/predict',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function(response) {
+                        if ('predicted_price' in response) {
+                            $('#result').html('<strong>Predicted Price:</strong> $' + response.predicted_price.toFixed(2));
+                        } else {
+                            $('#result').text('Prediction Error: ' + response.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

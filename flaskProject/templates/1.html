@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+</head>
+<body>
+    <h1>House Price Prediction</h1>
+    <form action="/predict" method="post">
+        <label for="area">Area (in square feet):</label>
+        <input type="text" id="area" name="area"><br><br>
+        <label for="bedrooms">Number of Bedrooms:</label>
+        <input type="text" id="bedrooms" name="bedrooms"><br><br>
+        <label for="bathrooms">Number of Bathrooms:</label>
+        <input type="text" id="bathrooms" name="bathrooms"><br><br>
+        <label for="stories">Number of Stories:</label>
+        <input type="text" id="stories" name="stories"><br><br>
+        <input type="submit" value="Predict">
+    </form>
+</body>
+</html>
